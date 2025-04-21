@@ -2,30 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Product;
+use App\Models\Sale;
+use App\Models\Member;
+
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-    
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
         $userCount = null;
-    
+
         if (auth()->user()->role == 'superadmin') {
-            $userCount = \App\Models\User::count();
+            $userCount = User::count();
         }
-    
-        $productCount = \App\Models\Product::count();
-        $salesCount = \App\Models\Sale::count();
-        $memberCount = \App\Models\Member::count();
-    
-        return view('home', compact('userCount', 'productCount', 'salesCount', 'memberCount'));
+
+        $productCount = Product::count();
+        $salesCount = Sale::count();
+        $memberCount = Member::count();
+
+        // Tambahan: hitung penjualan member & non-member
+        $memberSalesCount = Sale::whereNotNull('member_id')->count();
+        $nonMemberSalesCount = Sale::whereNull('member_id')->count();
+
+        return view('home', compact(
+            'userCount',
+            'productCount',
+            'salesCount',
+            'memberCount',
+            'memberSalesCount',
+            'nonMemberSalesCount'
+        ));
     }
 
     public function blank()

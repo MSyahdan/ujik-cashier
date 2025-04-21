@@ -1,6 +1,6 @@
 # laravel 12 with Cashier Template
 
-Welcome to the repository for laravel 12 - Cashier App
+Welcome to the repository for laravel 12 - ujik- cashier
 
 ## Features
 - laravel 12

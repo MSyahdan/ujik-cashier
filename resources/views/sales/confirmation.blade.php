@@ -74,7 +74,7 @@
                                         <div class="form-group mb-3" id="member_selection" style="display: none;">
                                             <label for="member_phone">Pilih Member (Berdasarkan Nomor Telepon)</label>
                                             <br>
-                                            <select class="form-control select2" id="member_phone" name="member_id">
+                                            <select class="form-control select2" id="member_phone" name="member_id" required>
                                                 <option value="">Pilih Member</option>
                                                 @foreach ($members as $member)
                                                     <option value="{{ $member->id }}">{{ $member->phone_number }} - {{ $member->name }}</option>
@@ -84,7 +84,7 @@
 
                                         <div class="form-group mb-3">
                                             <label for="total_pay">Jumlah Bayar</label>
-                                            <input type="text" class="form-control" id="total_pay" value="">
+                                            <input type="text" class="form-control" id="total_pay" value="" required>
                                             <input type="hidden" id="total_pay_numeric" name="total_pay">
                                         </div>
                                     </div>
@@ -112,16 +112,17 @@
             allowClear: true
         });
 
-        $('#is_member').on('change', function () {
+         $('#is_member').on('change', function () {
             if ($(this).val() === "yes") {
                 $('#member_selection').fadeIn();
+                $('#member_phone').prop('required', true);
             } else {
                 $('#member_selection').fadeOut();
+                $('#member_phone').prop('required', false); 
                 $('#member_phone').val(null).trigger('change');
             }
         });
-
-        $('#total_pay').on('input', function() {
+                $('#total_pay').on('input', function() {
             let value = $(this).val().replace(/\D/g, '');
             $('#total_pay_numeric').val(value);
             if (value) {
@@ -143,3 +144,4 @@
 </script>
 @endpush
 @endsection
+
